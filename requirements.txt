@@ -1,0 +1,2 @@
+# Intentionnellement vide.
+# Zero Trust Native — Python 3.8+ stdlib uniquement.

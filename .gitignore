@@ -1,0 +1,7 @@
+.env
+.env.local
+zt_audit.jsonl
+__pycache__/
+*.pyc
+*.pem
+*.key
