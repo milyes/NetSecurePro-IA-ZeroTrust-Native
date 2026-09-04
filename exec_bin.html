@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>exec_bin — Z-CORE</title>
+<style>
+body{margin:0;font-family:ui-monospace,monospace;background:#020617;color:#e5e7eb}
+main{max-width:720px;margin:auto;padding:24px}
+h1{color:#f97316;font-size:1.2rem}
+.ok{color:#22c55e}.bad{color:#f97316}
+button,a.btn{display:inline-block;margin:6px 6px 0 0;padding:10px 14px;background:#1f2937;color:#e5e7eb;border:1px solid #334155;border-radius:8px;text-decoration:none}
+pre{background:#0f172a;border:1px solid #1f2937;padding:12px;white-space:pre-wrap}
+</style>
+</head>
+<body>
+<main>
+<h1>exec_bin — nœud souverain local</h1>
+<p id="st">status…</p>
+<p>
+<a class="btn" href="/">index</a>
+<a class="btn" href="/IA_Parkinson_Logic.html">parkinson</a>
+<a class="btn" href="/IA_Fraude_Carte_Logic.html">fraude</a>
+<a class="btn" href="/status">/status</a>
+</p>
+<button onclick="ping()">GET /status</button>
+<button onclick="seal()">POST /score démo</button>
+<pre id="out"></pre>
+</main>
+<script>
+function show(x){document.getElementById("out").textContent=typeof x==="string"?x:JSON.stringify(x,null,2);}
+function ping(){
+ fetch("/status").then(r=>r.json()).then(d=>{
+  document.getElementById("st").innerHTML=d.ok?'<span class="ok">OPERATIONAL</span>':'<span class="bad">DOWN</span>';
+  show(d);
+ }).catch(e=>{document.getElementById("st").innerHTML='<span class="bad">DOWN</span>';show(String(e));});
+}
+function seal(){
+ fetch("/score",{method:"POST",headers:{"Content-Type":"application/json","X-API-Key":"demo-api-key-h3"},
+  body:JSON.stringify({source:"exec_bin",score:0.0,decision:{risque:"non_detecte"}})})
+  .then(r=>r.json()).then(show).catch(e=>show(String(e)));
+}
+ping();
+</script>
+</body>
+</html>
