@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>IA_Parkinson_Logic — Mobile‑First</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+    body {
+        font-family: system-ui, sans-serif;
+        background:#0f172a;
+        color:#e5e7eb;
+        margin:0;
+        padding:0;
+    }
+    .container {
+        max-width:480px;
+        margin:0 auto;
+        padding:20px;
+    }
+    h1 {
+        font-size:1.4rem;
+        color:#f97316;
+        margin-bottom:10px;
+        text-align:center;
+    }
+    p {
+        font-size:0.9rem;
+        line-height:1.4;
+        margin:6px 0;
+        text-align:center;
+    }
+    .field {
+        margin-top:14px;
+    }
+    label {
+        display:block;
+        font-size:0.9rem;
+        margin-bottom:6px;
+        color:#cbd5f5;
+    }
+    input[type="number"] {
+        width:100%;
+        padding:12px;
+        font-size:1rem;
+        border-radius:8px;
+        border:1px solid #334155;
+        background:#020617;
+        color:#e5e7eb;
+    }
+    input[type="number"]:focus {
+        outline:none;
+        border-color:#f97316;
+        box-shadow:0 0 0 1px #f97316;
+    }
+    .btn {
+        width:100%;
+        padding:14px;
+        margin-top:18px;
+        border:none;
+        border-radius:8px;
+        font-size:1rem;
+        font-weight:600;
+        cursor:pointer;
+    }
+    .btn-primary {
+        background:#f97316;
+        color:#0b1120;
+    }
+    .btn-secondary {
+        background:#1f2937;
+        color:#e5e7eb;
+    }
+    .result {
+        margin-top:20px;
+        padding:16px;
+        background:#020617;
+        border:1px solid #334155;
+        border-radius:10px;
+        font-size:0.95rem;
+    }
+    .result-flag-ok { color:#22c55e; }
+    .result-flag-risk { color:#f97316; }
+    code {
+        background:#111827;
+        padding:4px 6px;
+        border-radius:6px;
+        display:block;
+        margin-top:8px;
+        font-size:0.85rem;
+        white-space:pre-wrap;
+    }
+    .footer {
+        margin-top:20px;
+        font-size:0.75rem;
+        text-align:center;
+        color:#9ca3af;
+    }
+</style>
+</head>
+
+<body>
+<div class="container">
+
+<h1>IA_Parkinson_Logic — Mobile‑First</h1>
+<p>Version autonome, offline-native, zéro dépendance.</p>
+<p>Valeurs entre <strong>0.0</strong> et <strong>1.0</strong>.</p>
+
+<div class="field">
+    <label>Intensité du tremblement</label>
+    <input type="number" id="tremor" min="0" max="1" step="0.01" value="0.00">
+</div>
+
+<div class="field">
+    <label>Rigidité</label>
+    <input type="number" id="rigidity" min="0" max="1" step="0.01" value="0.00">
+</div>
+
+<div class="field">
+    <label>Bradykinésie</label>
+    <input type="number" id="brady" min="0" max="1" step="0.01" value="0.00">
+</div>
+
+<div class="field">
+    <label>Vitesse motrice</label>
+    <input type="number" id="speed" min="0" max="1" step="0.01" value="1.00">
+</div>
+
+<div class="field">
+    <label>Amplitude</label>
+    <input type="number" id="amplitude" min="0" max="1" step="0.01" value="1.00">
+</div>
+
+<div class="field">
+    <label>Régularité</label>
+    <input type="number" id="regularity" min="0" max="1" step="0.01" value="1.00">
+</div>
+
+<button class="btn btn-primary" onclick="run()">Calculer le score</button>
+<button class="btn btn-secondary" onclick="resetForm()">Réinitialiser</button>
+
+<div id="result" class="result" style="display:none;"></div>
+
+<div class="footer">
+    Scoring démonstratif — ne remplace pas un avis médical.
+</div>
+
+</div>
+
+<script>
+function clamp(v){ if(isNaN(v))return 0; return Math.min(1, Math.max(0, v)); }
+function val(id){ let e=document.getElementById(id); let v=clamp(parseFloat(e.value)); e.value=v.toFixed(2); return v; }
+
+function run(){
+    const f={
+        tremor:val("tremor"),
+        rigidity:val("rigidity"),
+        brady:val("brady"),
+        speed:val("speed"),
+        amplitude:val("amplitude"),
+        regularity:val("regularity")
+    };
+
+    const w={ tremor:0.25, rigidity:0.20, brady:0.25, speed:0.10, amplitude:0.10, regularity:0.10 };
+
+    const cardinal = w.tremor*f.tremor + w.rigidity*f.rigidity + w.brady*f.brady;
+    const biometrics = w.speed*(1-f.speed) + w.amplitude*(1-f.amplitude) + w.regularity*(1-f.regularity);
+
+    let score = clamp(cardinal + biometrics);
+    const risk = score >= 0.6;
+
+    const r=document.getElementById("result");
+    r.style.display="block";
+    r.innerHTML =
+        "<strong>Features :</strong>" +
+        "<code>"+JSON.stringify(f,null,2)+"</code>" +
+        "<br><strong>Score :</strong> "+score.toFixed(3)+
+        "<br><strong>Risque :</strong> <span class='"+(risk?"result-flag-risk":"result-flag-ok")+"'>"+
+        (risk?"OUI — risque détecté":"NON — risque non détecté")+"</span>";
+}
+
+function resetForm(){
+    ["tremor","rigidity","brady","speed","amplitude","regularity"].forEach(id=>{
+        document.getElementById(id).value = (id==="tremor"||id==="rigidity"||id==="brady")?"0.00":"1.00";
+    });
+    const r=document.getElementById("result");
+    r.style.display="none";
+    r.innerHTML="";
+}
+</script>
+
+</body>
+</html>

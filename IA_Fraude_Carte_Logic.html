@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IA_Fraude_Carte_Logic | Zero Trust Offline</title>
+<style>
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #0a0a0a; color: #e0e0e0; padding: 20px; max-width: 700px; margin: auto; }
+  h1 { color: #00ff88; font-size: 1.5rem; }
+  .subtitle { color: #888; font-size: 0.9rem; margin-bottom: 20px; }
+  .card { background: #1a1a1a; border: 1px solid #333; border-radius: 8px; padding: 20px; margin-bottom: 15px; }
+  label { display: block; margin-top: 15px; font-size: 0.9rem; }
+  input[type="range"] { width: 100%; margin-top: 5px; }
+  .value { color: #00ff88; font-weight: bold; }
+  button { background: #00ff88; color: #000; border: none; padding: 12px 24px; border-radius: 6px; font-weight: bold; cursor: pointer; margin-top: 20px; width: 100%; }
+  button:hover { background: #00cc70; }
+  #result { margin-top: 20px; padding: 15px; border-radius: 6px; display: none; }
+  .risk-high { background: #ff0044; color: #fff; }
+  .risk-low { background: #00ff88; color: #000; }
+</style>
+</head>
+<body>
+<h1>IA_Fraude_Carte_Logic</h1>
+<p class="subtitle">Détection de fraude transactionnelle | Zero dépendance | 100% Offline | Zero Trust</p>
+
+<div class="card">
+  <label>Montant Anormal: <span class="value" id="v1">0.5</span></label>
+  <input type="range" id="montant" min="0" max="1" step="0.01" value="0.5">
+  
+  <label>Pays à Risque: <span class="value" id="v2">0.5</span></label>
+  <input type="range" id="pays" min="0" max="1" step="0.01" value="0.5">
+  
+  <label>Heure Anormale: <span class="value" id="v3">0.5</span></label>
+  <input type="range" id="heure" min="0" max="1" step="0.01" value="0.5">
+  
+  <label>Fréquence Élevée: <span class="value" id="v4">0.5</span></label>
+  <input type="range" id="frequence" min="0" max="1" step="0.01" value="0.5">
+  
+  <label>Nouveau Marchand: <span class="value" id="v5">0.5</span></label>
+  <input type="range" id="marchand" min="0" max="1" step="0.01" value="0.5">
+  
+  <label>Écart Habitudes: <span class="value" id="v6">0.5</span></label>
+  <input type="range" id="habitudes" min="0" max="1" step="0.01" value="0.5">
+  
+  <button onclick="runPipeline()">Analyser la Transaction</button>
+</div>
+
+<div id="result"></div>
+
+<script>
+// CONFIG
+const CONFIG = { threshold_risk: 0.7, max_score: 1.0 };
+
+// LOGIQUE DE SCORING - ZERO DEPENDANCE
+function clamp(v) { return Math.max(0.0, Math.min(1.0, v)); }
+
+function predictRisk(features) {
+  const w = {
+    montant: 0.30,
+    pays: 0.25,
+    heure: 0.15,
+    frequence: 0.10,
+    marchand: 0.10,
+    habitudes: 0.10
+  };
+  let raw = 0;
+  raw += w.montant * features.montant;
+  raw += w.pays * features.pays;
+  raw += w.heure * features.heure;
+  raw += w.frequence * features.frequence;
+  raw += w.marchand * features.marchand;
+  raw += w.habitudes * features.habitudes;
+  return Math.min(raw, CONFIG.max_score);
+}
+
+function runPipeline() {
+  const features = {
+    montant: clamp(parseFloat(document.getElementById('montant').value)),
+    pays: clamp(parseFloat(document.getElementById('pays').value)),
+    heure: clamp(parseFloat(document.getElementById('heure').value)),
+    frequence: clamp(parseFloat(document.getElementById('frequence').value)),
+    marchand: clamp(parseFloat(document.getElementById('marchand').value)),
+    habitudes: clamp(parseFloat(document.getElementById('habitudes').value))
+  };
+  
+  const risk_score = predictRisk(features);
+  const risk_flag = risk_score >= CONFIG.threshold_risk;
+  
+  const resultDiv = document.getElementById('result');
+  resultDiv.style.display = 'block';
+  resultDiv.className = risk_flag ? 'risk-high' : 'risk-low';
+  resultDiv.innerHTML = `
+    <strong>Score de Risque: ${(risk_score * 100).toFixed(1)}%</strong><br>
+    <strong>Fraude Détectée: ${risk_flag ? 'OUI' : 'NON'}</strong><br>
+    <small>Seuil: ${(CONFIG.threshold_risk * 100)}%</small>
+  `;
+}
+
+// Update sliders values
+document.querySelectorAll('input[type="range"]').forEach((input, i) => {
+  input.addEventListener('input', (e) => {
+    document.getElementById('v' + (i+1)).textContent = e.target.value;
+  });
+});
+</script>
+
+<footer style="margin-top:40px; font-size:0.8rem; color:#555;">
+Note: Démo pédagogique. Ne remplace pas un système de détection réel.
+</footer>
+</body>
+</html>

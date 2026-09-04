@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IA_Parkinson_Logic | Rapport Docteur</title>
+<style>
+  body { font-family: Arial, sans-serif; background: #0a0f1a; color: #e0e0e0; padding: 20px; max-width: 800px; margin: auto; }
+  h1 { color: #00d4ff; }
+ .subtitle { color: #888; font-size: 0.9rem; margin-bottom: 20px; }
+ .card { background: #111827; border: 1px solid #1f2937; border-radius: 8px; padding: 20px; margin-bottom: 15px; }
+  label { display: block; margin-top: 10px; font-size: 0.9rem; }
+  input { width: 100%; padding: 8px; margin-top: 5px; background: #1f2937; color: #fff; border: 1px solid #374151; border-radius: 4px; }
+  button { background: #00d4ff; color: #000; border: none; padding: 12px 24px; border-radius: 6px; font-weight: bold; cursor: pointer; margin-top: 15px; margin-right: 10px; }
+  button.pdf { background: #ff6b00; }
+  #result { margin-top: 20px; padding: 15px; border-radius: 6px; background: #1f2937; display: none; }
+ .risk-low { color: #00ff88; }
+ .disclaimer { font-size: 0.8rem; color: #888; margin-top: 20px; }
+  @media print { button { display: none; } body { background: #fff; color: #000; }.card { border: 1px solid #ccc; } }
+</style>
+</head>
+<body>
+<h1>IA_Parkinson_Logic</h1>
+<p class="subtitle">Démo zero trust, offline-native | Outil d'aide à la quantification des symptômes moteurs</p>
+
+<div class="card">
+  <h3>Paramètres moteurs (0.0 = aucun, 1.0 = très marqué)</h3>
+  <label>Intensité du tremblement <input type="number" id="tremor" min="0" max="1" step="0.01" value="0.0"></label>
+  <label>Niveau de rigidité <input type="number" id="rigidity" min="0" max="1" step="0.01" value="0.0"></label>
+  <label>Lenteur des mouvements <input type="number" id="bradykinesia" min="0" max="1" step="0.01" value="0.0"></label>
+  <label>Vitesse globale <input type="number" id="speed" min="0" max="1" step="0.01" value="1.0"></label>
+  <label>Amplitude <input type="number" id="amplitude" min="0" max="1" step="0.01" value="1.0"></label>
+  <label>Régularité <input type="number" id="regularity" min="0" max="1" step="0.01" value="1.0"></label>
+
+  <button onclick="calculer()">Calculer le score de risque</button>
+  <button class="pdf" onclick="window.print()">Exporter PDF pour le Docteur</button>
+</div>
+
+<div id="result">
+  <h3>Résultat du Scoring</h3>
+  <p><strong>Date:</strong> <span id="date"></span></p>
+  <p><strong>Features:</strong> <span id="features"></span></p>
+  <p><strong>Score de risque:</strong> <span id="score"></span></p>
+  <p><strong>Risque détecté:</strong> <span id="risk"></span></p>
+</div>
+
+<p class="disclaimer">Ce scoring est purement démonstratif et ne remplace en aucun cas un avis médical ou un diagnostic clinique.</p>
+
+<script>
+function calculer() {
+  const f = {
+    tremor_intensity: parseFloat(document.getElementById('tremor').value),
+    rigidity_level: parseFloat(document.getElementById('rigidity').value),
+    bradykinesia_level: parseFloat(document.getElementById('bradykinesia').value),
+    motor_speed: parseFloat(document.getElementById('speed').value),
+    movement_amplitude: parseFloat(document.getElementById('amplitude').value),
+    movement_regularities: parseFloat(document.getElementById('regularity').value)
+  };
+
+  const w = { tremor_intensity: 0.25, rigidity_level: 0.20, bradykinesia_level: 0.20, motor_speed: 0.15, movement_amplitude: 0.10, movement_regularities: 0.10 };
+  let score = 0;
+  for(let k in f) { score += w[k] * f[k]; }
+  score = score.toFixed(3);
+
+  const risk = score >= 0.6? "OUI - risque élevé" : "NON - risque non détecté";
+
+  document.getElementById('date').textContent = new Date().toLocaleDateString('fr-FR');
+  document.getElementById('features').textContent = JSON.stringify(f);
+  document.getElementById('score').textContent = score;
+  document.getElementById('risk').textContent = risk;
+  document.getElementById('risk').className = score >= 0.6? '' : 'risk-low';
+  document.getElementById('result').style.display = 'block';
+}
+</script>
+</body>
+</html>

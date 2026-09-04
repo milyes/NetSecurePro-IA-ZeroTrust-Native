@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RBC_Chatbot_Cartes_Logic | Zero Trust Offline</title>
+<style>
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #005daa; color: #fff; margin: 0; display: flex; flex-direction: column; height: 100vh; }
+  header { background: #003366; padding: 15px; text-align: center; }
+  h1 { margin: 0; font-size: 1.2rem; }
+  .subtitle { font-size: 0.8rem; opacity: 0.8; }
+  #chat { flex: 1; overflow-y: auto; padding: 20px; background: #f0f4f8; color: #000; }
+  .msg { margin-bottom: 15px; padding: 12px 16px; border-radius: 12px; max-width: 80%; line-height: 1.5; }
+  .user { background: #005daa; color: #fff; margin-left: auto; }
+  .bot { background: #fff; border: 1px solid #ddd; }
+  #input-area { display: flex; padding: 15px; background: #003366; }
+  #input { flex: 1; padding: 12px; border: none; border-radius: 6px; font-size: 1rem; }
+  #send { background: #00ff88; color: #000; border: none; padding: 12px 20px; margin-left: 10px; border-radius: 6px; font-weight: bold; cursor: pointer; }
+</style>
+</head>
+<body>
+<header>
+  <h1>RBC_Chatbot_Cartes_Logic</h1>
+  <div class="subtitle">Assistant FAQ Cartes RBC | 100% Offline | Zero Trust</div>
+</header>
+
+<div id="chat">
+  <div class="msg bot">Bonjour. Je suis l'assistant virtuel RBC Cartes. Comment puis-je vous aider aujourd'hui?</div>
+</div>
+
+<div id="input-area">
+  <input type="text" id="input" placeholder="Ex: Comment bloquer ma carte?" onkeypress="if(event.key==='Enter') send()">
+  <button id="send" onclick="send()">Envoyer</button>
+</div>
+
+<script>
+// BASE DE CONNAISSANCES - RAG SIMULÉ OFFLINE
+const KB = [
+  { q: ["bloquer", "perdue", "volée", "opposition"], a: "Pour bloquer votre carte RBC immédiatement: 1. Ouvrez l'app RBC Mobile > Cartes > Bloquer 2. Ou appelez 1-800-769-2512 24/7. Une nouvelle carte vous sera envoyée." },
+  { q: ["plafond", "limite", "augmenter"], a: "Vous pouvez demander une augmentation de plafond via RBC Banque en direct ou sur RBC Mobile > Cartes > Gérer les limites. L'approbation dépend de votre dossier de crédit." },
+  { q: ["frais", "annuels", "cout"], a: "Les frais annuels varient selon la carte. Carte RBC Visa Classique: 0$. Carte RBC Visa Or: 50$. Carte RBC Avion: 120$. Consultez votre relevé pour le détail." },
+  { q: ["remboursement", "débit", "délai"], a: "Les remboursements de marchands apparaissent sur votre relevé dans 3 à 5 jours ouvrables. Le crédit est immédiat si c'est un ajustement RBC." },
+  { q: ["fraude", "transaction", "inconnue"], a: "Si vous voyez une transaction inconnue, signalez-la immédiatement au 1-800-769-2512. RBC enquêtera et vous créditera selon la politique de protection contre la fraude." },
+  { q: ["pin", "nip", "changer"], a: "Pour changer votre NIP: Guichet RBC > Services > Changer NIP. Ou en agence avec pièce d'identité." },
+  { q: ["voyage", "activer", "à l'étranger"], a: "Aucun avis de voyage requis. Mais avisez RBC si vous partez +30 jours pour éviter le blocage préventif." }
+];
+
+// LOGIQUE RAG SIMPLIFIÉE - MATCH PAR MOTS-CLÉS
+function findAnswer(userInput) {
+  const input = userInput.toLowerCase();
+  let bestMatch = null;
+  let maxScore = 0;
+  
+  for (const item of KB) {
+    let score = 0;
+    for (const keyword of item.q) {
+      if (input.includes(keyword)) score++;
+    }
+    if (score > maxScore) {
+      maxScore = score;
+      bestMatch = item;
+    }
+  }
+  
+  if (bestMatch && maxScore > 0) return bestMatch.a;
+  return "Je ne suis pas certain de comprendre. Pour les questions complexes, contactez RBC au 1-800-769-2512 ou par clavardage dans RBC Mobile.";
+}
+
+function addMsg(text, sender) {
+  const chat = document.getElementById('chat');
+  const div = document.createElement('div');
+  div.className = `msg ${sender}`;
+  div.textContent = text;
+  chat.appendChild(div);
+  chat.scrollTop = chat.scrollHeight;
+}
+
+function send() {
+  const input = document.getElementById('input');
+  const text = input.value.trim();
+  if (!text) return;
+  
+  addMsg(text, 'user');
+  input.value = '';
+  
+  setTimeout(() => {
+    const answer = findAnswer(text);
+    addMsg(answer, 'bot');
+  }, 500);
+}
+</script>
+</body>
+</html>
