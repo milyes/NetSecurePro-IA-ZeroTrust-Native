@@ -23,6 +23,18 @@ class H(http.server.BaseHTTPRequestHandler):
     def do_OPTIONS(self):
         self._json(204, {})
     def do_GET(self):
+        if self.path in ("/", "/index.html", "/IA_Parkinson_Logic.html"):
+            html = Path = None
+            import pathlib
+            fp = pathlib.Path(__file__).with_name("IA_Parkinson_Logic.html")
+            if fp.exists():
+                data = fp.read_bytes()
+                self.send_response(200)
+                self.send_header("Content-Type", "text/html; charset=utf-8")
+                self.send_header("Content-Length", str(len(data)))
+                self.end_headers()
+                self.wfile.write(data)
+                return
         if self.path in ("/", "/status"):
             self._json(200, {"ok": True, "service": "Z-H202.ia"})
             return
