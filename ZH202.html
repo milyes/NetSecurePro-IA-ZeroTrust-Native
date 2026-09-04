@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Z-H202.ia — Ghost autonome</title>
+<style>
+body{margin:0;font-family:system-ui,sans-serif;background:#020617;color:#e5e7eb}
+main{max-width:720px;margin:auto;padding:24px}
+h1{color:#38bdf8;margin:0}
+.sub{color:#94a3b8;font-size:.9rem}
+label{display:block;margin-top:14px;font-size:.85rem;color:#cbd5f5}
+input,textarea,select{width:100%;padding:10px;border-radius:8px;border:1px solid #334155;background:#0f172a;color:#e5e7eb}
+textarea{min-height:90px}
+button{margin-top:16px;padding:12px 16px;border:0;border-radius:8px;background:#38bdf8;color:#020617;font-weight:700}
+pre{background:#0f172a;border:1px solid #1f2937;padding:12px;white-space:pre-wrap}
+.ok{color:#22c55e}
+</style>
+</head>
+<body>
+<main>
+<h1>Z-H202.ia</h1>
+<p class="sub">Ghost full autonome · scellement local POST /zh202/decision · SHA-256</p>
+<label>Module</label><input id="module" value="Z-H202.ia">
+<label>Action</label>
+<select id="action"><option value="seal">seal</option><option value="observe">observe</option><option value="hold">hold</option></select>
+<label>Niveau</label>
+<select id="niveau"><option value="souverain">souverain</option><option value="audit">audit</option><option value="ghost">ghost</option></select>
+<label>Décision</label>
+<textarea id="texte">Sceller l'état opérationnel du nœud local.</textarea>
+<button onclick="seal()">Sceller la décision</button>
+<p id="st"></p><pre id="out"></pre>
+</main>
+<script>
+function seal(){
+  var body={source:"zh202",decision:{
+    module:document.getElementById("module").value,
+    action:document.getElementById("action").value,
+    niveau:document.getElementById("niveau").value,
+    texte:document.getElementById("texte").value,
+    at:new Date().toISOString()
+  }};
+  document.getElementById("st").textContent="envoi…";
+  fetch("/zh202/decision",{method:"POST",headers:{"Content-Type":"application/json","X-API-Key":"demo-api-key-h3"},body:JSON.stringify(body)})
+    .then(function(r){if(!r.ok)throw new Error("HTTP "+r.status);return r.json();})
+    .then(function(d){document.getElementById("st").innerHTML='<span class="ok">scellé</span>';document.getElementById("out").textContent=JSON.stringify(d,null,2);})
+    .catch(function(e){document.getElementById("st").textContent=String(e);});
+}
+</script>
+</body>
+</html>
