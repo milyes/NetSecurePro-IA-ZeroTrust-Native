@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rapport Technique & Stratégique — NetSecurePro IA</title>
+    <style>
+        /* CSS Intégré - Zéro Dépendance Externe (Zero-Trust Native) */
+        :root {
+            --bg-main: #f8fafc;
+            --bg-card: #ffffff;
+            --primary: #0f172a;
+            --accent: #0284c7;
+            --accent-light: #f0f9ff;
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --border: #e2e8f0;
+            --success-bg: #dcfce7;
+            --success-text: #166534;
+            --code-bg: #090d16;
+            --code-text: #38bdf8;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.5;
+            color: var(--text-main);
+            background-color: var(--bg-main);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: var(--bg-card);
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        header {
+            background-color: var(--primary);
+            color: #ffffff;
+            padding: 32px 40px;
+            border-bottom: 4px solid var(--accent);
+        }
+
+        .badge {
+            display: inline-block;
+            background-color: var(--accent);
+            color: #ffffff;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 4px 10px;
+            border-radius: 4px;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 6px;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            color: #94a3b8;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        main {
+            padding: 40px;
+        }
+
+        h2 {
+            font-size: 1.25rem;
+            color: var(--primary);
+            margin-top: 32px;
+            margin-bottom: 12px;
+            padding-left: 10px;
+            border-left: 4px solid var(--accent);
+        }
+
+        p {
+            margin-bottom: 16px;
+            color: var(--text-muted);
+            text-align: justify;
+        }
+
+        .highlight-box {
+            background-color: var(--accent-light);
+            border: 1px solid #bae6fd;
+            border-radius: 6px;
+            padding: 16px;
+            margin: 20px 0;
+            color: #0369a1;
+            font-size: 0.95rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.9rem;
+        }
+
+        th, td {
+            padding: 12px 14px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background-color: var(--primary);
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+
+        .badge-win {
+            background-color: var(--success-bg);
+            color: var(--success-text);
+            font-weight: bold;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 0.8rem;
+        }
+
+        .code-block {
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 16px;
+            border-radius: 6px;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            font-size: 0.85rem;
+            line-height: 1.45;
+            overflow-x: auto;
+            margin: 16px 0;
+        }
+
+        ul, ol {
+            margin-bottom: 20px;
+            padding-left: 24px;
+            color: var(--text-muted);
+        }
+
+        li {
+            margin-bottom: 6px;
+        }
+
+        footer {
+            background-color: #f1f5f9;
+            padding: 20px 40px;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        @media (max-width: 768px) {
+            main, header, footer {
+                padding: 20px;
+            }
+            table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <span class="badge">Loi 25 • Zero-Trust • Air-Gapped Native</span>
+        <h1>AIMEDIXAL Sovereign Edition & NetSecurePro IA</h1>
+        <div class="subtitle">Dossier d'Évaluation Technique & Rapport d'Infrastructures 100% Locales</div>
+    </header>
+
+    <main>
+        <div class="highlight-box">
+            <strong>Garantie Souveraine :</strong> 0 Cloud • 0 Web • 0 Fuite de Données. Traitement d'IA décisionnelle exécuté intégralement sur le matériel hôte local (On-Premise / Edge), garantissant l'étanchéité absolue et la conformité stricte avec la <strong>Loi 25</strong> du Québec.
+        </div>
+
+        <h2>1. Synthèse Exécutive</h2>
+        <p>
+            L'intégration de l'IA décisionnelle au sein du réseau de santé québécois (CHUM / MSSS) requiert d'éliminer tout vecteur d'exfiltration. Les architectures basées sur le Cloud public introduisent des risques inacceptables de transit transfrontalier, de dépendance réseau et de contamination du corpus (<em>Data Poisoning</em>). NetSecurePro IA fournit une infrastructure logicielle d'orchestration entièrement hermétique, s'exécutant sur du matériel local sans aucun appel réseau sortant.
+        </p>
+
+        <h2>2. Benchmark Kernel & Performance Z-CORE G7</h2>
+        <p>
+            Le moteur propriétaire <strong>Z-CORE G7</strong> agit comme orchestrateur système au niveau du noyau Linux, assurant une gestion optimale des ressources et la purge continue des espaces mémoires sensibles.
+        </p>
+
+        <div class="code-block">
+:: MILYES-IA HARDWARE & KERNEL ORCHESTRATOR G7 CORE ::
+[EXEC] Scan télémétrique du noyau Z-CORE G7...
+[Hôte Système] localhost | [Noyau Kernel] Linux 5.15.189-android13
+[Empreinte Synaptique RAM] 2511MB / 3640MB (68%)
+[TUNING] Analyse table d'interruption CPU... [DONE]
+[TUNING] Nettoyage buffers d'E/S temporaires... [DONE]
+[TUNING] Vérification intégrité descripteurs POSIX... [DONE]
+[EXEC] Benchmark Calcul d'Entropie : 50000 cycles exécutés en 353 ms.
+[SYS] Z-CORE G7 Operation Terminated Successfully.
+        </div>
+
+        <h2>3. Stratégie Matérielle Non-NVIDIA & Agnosticisme</h2>
+        <p>
+            Z-CORE G7 s'affranchit de la dépendance envers les puces propriétaires NVIDIA et les baies de serveurs énergivores. La solution offre un agnosticisme matériel complet :
+        </p>
+        <ul>
+            <li><strong>Valorisation de l'existant :</strong> Exécution directe sur les processeurs standards (x86_64, ARM64) et serveurs déjà en place au CHUM.</li>
+            <li><strong>Sobriété énergétique :</strong> Consommation sur nœud Edge inférieure à 30W TDP (contre 700W TDP par GPU haut de gamme).</li>
+            <li><strong>Réduction du TCO :</strong> Diminution des coûts d'infrastructure globale de plus de 80 %, sans redevances récurrentes de licences Cloud.</li>
+        </ul>
+
+        <h2>4. Grille Comparative : Cloud vs NetSecurePro IA</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Critère de Sécurité & TI</th>
+                    <th>IA Cloud / Microservices Tiers</th>
+                    <th>NetSecurePro IA (Z-CORE G7)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Transit des Données</strong></td>
+                    <td>Externe (API Web / Cloud)</td>
+                    <td><span class="badge-win">100% Local (0 Socket Externe)</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Conformité Loi 25</strong></td>
+                    <td>Risque d'hébergement hors Québec</td>
+                    <td><span class="badge-win">Conformité Territoriale Native</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Latence Réseau</strong></td>
+                    <td>35 ms à 120 ms (Varie selon débit)</td>
+                    <td><span class="badge-win">0,00 ms Overhead Réseau</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Résilience Data Poisoning</strong></td>
+                    <td>Vulnérable aux attaques récursives Web</td>
+                    <td><span class="badge-win">Corpus Médical Scellé & Isolé</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Dépendance Fournisseur</strong></td>
+                    <td>Élevée (Verrouillage API)</td>
+                    <td><span class="badge-win">Autonomie Totale (Air-Gapped)</span></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>5. Plan d'Exécution du Projet Pilote CHUM (90 Jours)</h2>
+        <ol>
+            <li><strong>Phase 1 (J1 - J15) :</strong> Installation du nœud local Edge et isolation réseau hermétique (Air-Gap).</li>
+            <li><strong>Phase 2 (J16 - J45) :</strong> Ingestion contrôlée de dossiers médicaux anonymisés et tests de synthèses décisionnelles.</li>
+            <li><strong>Phase 3 (J46 - J75) :</strong> Audit de sécurité, vérification des registres d'audit (<em>Audit Logs</em>) et validation ÉFVP Loi 25.</li>
+            <li><strong>Phase 4 (J76 - J90) :</strong> Présentation du rapport d'impact institutionnel et recommandations de déploiement.</li>
+        </ol>
+    </main>
+
+    <footer>
+        NetSecurePro IA • Fondateur : Mohammed Ilyes Zoubirou • Architecte IA Souveraine & Cybersécurité<br>
+        Contact : milyes@netsecurepro.ca | Site Web : netsecurepro.ca
+    </footer>
+</div>
+
+</body>
+</html>

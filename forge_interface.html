@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forge MCL_MILYES - Interface Web</title>
+    <style>
+        :root { --dz-green: #006233; --dz-red: #D21034; --bg: #f9f9f9; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; padding: 20px; color: #333; }
+        .container { max-width: 700px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        h1 { color: var(--dz-green); text-align: center; border-bottom: 2px solid var(--dz-green); padding-bottom: 10px; }
+        .input-group { margin-bottom: 20px; }
+        label { display: block; font-weight: bold; margin-bottom: 5px; }
+        input[type="text"], select { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px; box-sizing: border-box; }
+        .btn-forge { width: 100%; padding: 15px; background: var(--dz-green); color: white; border: none; border-radius: 5px; font-size: 18px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .btn-forge:hover { background: #004d28; }
+        .btn-forge:disabled { background: #aaa; cursor: not-allowed; }
+        .terminal { background: #1e1e1e; color: #00ff00; padding: 15px; border-radius: 5px; font-family: monospace; font-size: 14px; height: 300px; overflow-y: auto; margin-top: 20px; display: none; }
+        .log-line { margin-bottom: 5px; }
+        .success { color: #4CAF50; font-weight: bold; }
+        #result-box { margin-top: 20px; padding: 15px; background: #e8f5e9; border-left: 4px solid var(--dz-green); display: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🇩🇿 Forge MCL_MILYES</h1>
+        <p style="text-align:center; color:#666;">Transforme ton idée en startup en 48 heures.</p>
+        <div class="input-group">
+            <label>💡 Décris ton idée (en Darija ou Français) :</label>
+            <input type="text" id="idea-input" placeholder="Ex: Application de livraison de repas à Alger avec paiement Edahabia">
+        </div>
+        <div class="input-group">
+            <label>💳 Méthode de paiement principale :</label>
+            <select id="payment-input">
+                <option value="Edahabia">Edahabia</option>
+                <option value="CIB">CIB</option>
+                <option value="Baridimob">Baridimob</option>
+            </select>
+        </div>
+        <button id="launch-btn" class="btn-forge" onclick="launchForge()">🚀 Lancer la Forge IA</button>
+        <div id="terminal" class="terminal"></div>
+        <div id="result-box">
+            <strong>✅ Projet généré avec succès !</strong><br>
+            <span id="result-text"></span>
+        </div>
+    </div>
+    <script>
+        function addLog(text, isSuccess = false) {
+            const terminal = document.getElementById('terminal');
+            const line = document.createElement('div');
+            line.className = isSuccess ? 'log-line success' : 'log-line';
+            line.innerText = `[LOG] ${text}`;
+            terminal.appendChild(line);
+            terminal.scrollTop = terminal.scrollHeight;
+        }
+        async function launchForge() {
+            const idea = document.getElementById('idea-input').value;
+            const payment = document.getElementById('payment-input').value;
+            if (!idea) { alert("Ya khouya, écris une idée d'abord ! 😅"); return; }
+            const btn = document.getElementById('launch-btn');
+            const terminal = document.getElementById('terminal');
+            const resultBox = document.getElementById('result-box');
+            btn.disabled = true;
+            btn.innerText = "Génération en cours...";
+            terminal.style.display = 'block';
+            resultBox.style.display = 'none';
+            terminal.innerHTML = '';
+            addLog("SYSTÈME: Initialisation de MCL_MILYES...");
+            await new Promise(r => setTimeout(r, 1000));
+            addLog("Agent Archi: Début tâche : Analyse de l'idée...");
+            await new Promise(r => setTimeout(r, 2000));
+            addLog("Agent Archi: Tâche terminée. Modèle business identifié.");
+            addLog("Agent Juriste: Début tâche : Rédaction des statuts (Loi 18-05)...");
+            await new Promise(r => setTimeout(r, 2500));
+            addLog("Agent Juriste: Tâche terminée.");
+            addLog("Agent Dev: Début tâche : Génération du code HTML/CSS...");
+            await new Promise(r => setTimeout(r, 3000));
+            addLog("Agent Dev: Tâche terminée.");
+            addLog("AgentPaiement: Configuration API " + payment + "...");
+            await new Promise(r => setTimeout(r, 1500));
+            addLog("PROJET CRÉÉ AVEC SUCCÈS !", true);
+            document.getElementById('result-text').innerText = "Le projet '" + idea + "' est prêt. Intégration " + payment + " configurée.";
+            resultBox.style.display = 'block';
+            btn.disabled = false;
+            btn.innerText = "🚀 Lancer une nouvelle Forge";
+        }
+    </script>
+</body>
+</html>

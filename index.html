@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Z-PUCE Native Zero-Trust</title>
+  <style>
+    body {
+      background-color: #0b0f17;
+      color: #c9d1d9;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 15px;
+    }
+    .card {
+      background-color: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      padding: 20px;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    }
+    h2 {
+      color: #58a6ff;
+      font-size: 1rem;
+      margin-top: 0;
+      margin-bottom: 15px;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      background-color: #0d1117;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+      color: #f0f6fc;
+      box-sizing: border-box;
+      margin-bottom: 12px;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #238636;
+      border: none;
+      border-radius: 6px;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #2ea043;
+    }
+    .output-box {
+      margin-top: 15px;
+      background-color: #040d21;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+      padding: 10px;
+      font-family: monospace;
+      font-size: 0.85rem;
+      color: #7ee787;
+      min-height: 60px;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h2>[Z-PUCE] Interprète de Règles IA (Zero-Trust)</h2>
+    <input type="text" id="commandInput" placeholder="Ex: audit, status, ollama, banque, logs">
+    <button onclick="sendCommand()">Exécuter</button>
+    
+    <div class="output-box" id="output">En attente de commande...</div>
+  </div>
+
+  <script>
+    const SECRET_KEY = "NETSECUREPRO_OMNIA_SEALED_KEY_2026_ZPUCE";
+
+    async function computeHMAC(message, secret) {
+      const enc = new TextEncoder();
+      const key = await crypto.subtle.importKey(
+        "raw", enc.encode(secret),
+        { name: "HMAC", hash: "SHA-256" },
+        false, ["sign"]
+      );
+      const signature = await crypto.subtle.sign("HMAC", key, enc.encode(message));
+      return Array.from(new Uint8Array(signature))
+        .map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    async function sendCommand() {
+      const input = document.getElementById("commandInput").value.trim();
+      const output = document.getElementById("output");
+      if (!input) return;
+
+      output.innerText = "Signature HMAC & Traitement en cours...";
+
+      const payload = JSON.stringify({ condition: input });
+      const hmacSignature = await computeHMAC(payload, SECRET_KEY);
+
+      try {
+        const response = await fetch('/exec', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Signature-HMAC': hmacSignature
+          },
+          body: payload
+        });
+
+        const data = await response.json();
+        if (response.ok) {
+          output.innerText = data.output || "Commande exécutée avec succès (RAM Purged).";
+        } else {
+          output.innerText = "Erreur: " + (data.error || "Avertissement de sécurité.");
+        }
+      } catch (err) {
+        output.innerText = "Erreur de connexion au micro-serveur local.";
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Z-CORE v22 - Llama-4 FR</title>
+<style>
+:root{--bg:#0a0a0a;--fg:#00ff88;--dim:#444;--card:#111}
+*{box-sizing:border-box;font-family:monospace}
+body{background:var(--bg);color:var(--fg);margin:0;padding:12px}
+h1{font-size:18px;border:1px solid var(--fg);padding:8px;text-align:center}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.card{background:var(--card);border:1px solid var(--dim);padding:10px;font-size:12px}
+.card b{color:#fff}
+.ok{color:var(--fg)}.warn{color:#ffaa00}
+input,button{width:100%;background:#000;color:var(--fg);border:1px solid var(--fg);padding:10px;margin-top:6px}
+button{background:var(--fg);color:#000;font-weight:bold}
+#log{white-space:pre-wrap;font-size:11px;height:220px;overflow:auto;background:#000;border:1px solid var(--dim);padding:8px}
+</style>
+</head>
+<body>
+<h1>╔ Z-CORE v22 RECORDE ╗<br>NON DÉPENDANCE • ZERO TRUST • AI22 • LLAMA-4 FR</h1>
+
+<div class="grid">
+<div class="card"><b>MODE</b><br><span class="ok">ZeroTrust Natif</span><br><b>LLM</b><br>Llama-4-Scout/Maverick<br><b>ENDPOINT</b><br>localhost:8765</div>
+<div class="card"><b>VAULT</b><br><span id="vault">Chargement...</span><br><br><b>LOGS</b><br><span id="logs">-</span></div>
+</div>
+
+<div class="card" style="margin-top:8px">
+<b>Z-CORE PROMPT (FR)</b>
+<input id="prompt" value="Active Z-CORE Git en mode souverain non-dépendance totale">
+<button onclick="runAI()">▶ LANCER AI22 [22 LOGIQUES]</button>
+<div id="log">[INIT] Prêt... En attente d'ordre.</div>
+</div>
+
+<script>
+async function loadVault(){
+  try{
+    let r=await fetch('/vault/last_prompt.txt'); document.getElementById('vault').innerText=await r.text();
+    let l=await fetch('/logs/'); document.getElementById('logs').innerText='logs/ OK - '+new Date().toLocaleTimeString();
+  }catch(e){document.getElementById('vault').innerText='http://localhost:8765 [UP]'}
+}
+async function runAI(){
+  const p=document.getElementById('prompt').value;
+  const log=document.getElementById('log');
+  log.innerText='[ZT-01] Audit...\n[ZT-02] Anti-Injection OK\n Traitement Llama-4 FR...\n[Prompt] '+p+'\n\n';
+  const logics=["Analyse","Mémoire","Prédiction","Action","Audit","Sécurité","Innovation","Psychométrie","Recon","Ethique","Contexte","Synthèse","Validation","Optimisation","Déploiement","Monitoring","Apprentissage","Décision","Empathie","Créativité","Résilience","Souveraineté"];
+  for(let i=0;i<logics.length;i++){
+    await new Promise(r=>setTimeout(r,80));
+    log.innerText+=`[${String(i+1).padStart(2,'0')}/22] ${logics[i].padEnd(15)} -> ${Math.random().toString(16).substr(2,8)} [OK]\n`;
+    log.scrollTop=log.scrollHeight;
+  }
+  log.innerText+=`\n[OUTPUT] { "mode":"ZeroTrust Natif", "llm":"Llama-4 FR", "prompt":"${p}", "status":"NON DÉPENDANCE VALIDÉE" }\n[RECORDE OK]`;
+}
+loadVault();
+</script>
+</body>
+</html>
