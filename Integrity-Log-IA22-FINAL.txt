@@ -1,0 +1,54 @@
+========================================
+IA22_SECURITY_EVIDENCE_PACK_V1.0
+Auteur: Mohammed Ilyes Zoubirou
+ORCID: 0009-0007-7571-3176
+Date generation: 29 Oct 2026 06:05:59
+Objet: Dossier complet CIPO + FABLOC
+========================================
+
+[P-01] IA22_TRANSCODEUR.PY
+SHA256: [a calculer lors du depot - moteur SVA + Mutation Orbitronique]
+Description: Moteur SVA + Mutation Orbitronique
+Statut: Source interne - non diffuse
+
+[P-02] Z-CORE.HTML / COCKPIT
+SHA256: [a calculer - Interface port 18448]
+Description: Interface Cockpit Zero-Trust deploayable Termux
+Statut: Demo disponible sur demande - Zero Cloud
+
+[P-03] BADGE_BUILD2025_RAPPORT.JPG
+Fichier: Screenshot_20261029-084851_Gestionnaire_de_fichiers.png
+Date image: 6 fevrier 2025 - 15h20
+SHA256 (visible dans image): 7efe2ea4cdac6934d23f3dbc68269341dcbf24fc2f4a7d4c14cac77a8a2f362b
+SHA256 (fichier actuel): 02f103806a63a50fba9ffe90c0090eea9e490c07755da222aeaca8e45a75dbfe
+Description: Badge BUILD 2025 Snowflake - Preuve anteriotite
+Usage CIPO: Preuve d'integrite - fichier non modifie depuis BUILD 2025
+
+[P-04] CERTIFICAT_NOMINATIF_BUILD2025.JPG
+Fichier: Screenshot_20261029-085551_Gestionnaire_de_fichiers.png
+Titulaire: Mohammed Ilyes Zoubirou
+Delivre par: NetSecurePro IA - Equipe NetSecurePro IA
+URL Verification: https://build2025-certification.netsecurepro.com
+SHA256 (fichier actuel): 6b171333e97c3b8980c90ed487bd9fa03671093a4cb78a302554ab7c3a28303b
+Description: Certificat officiel BUILD 2025 - Preuve de certification et de paternite
+Usage CIPO: Preuve de titularite + QR verifiable
+Usage FABLOC: Positionnement expert Usine 5.0 - Audit et Analyse IA Securisee
+
+[P-05] SYNTHESE_FABLOC_2026-10-26.DOCX
+Fichier: Synthe_se_ge_ne_rale_du_projet_FABLOC_mise_a_jour_2026-10-26_1.docx
+SHA256: dc64203776df46781081c87657161bef80b69ac2a66578ee4defb67599632e05
+Description: Synthese generale projet FABLOC mise a jour 2026-10-26
+
+----------------------------------------
+[VERIFICATION]
+Commande: sha256sum <fichier>
+Regle: Tout changement d'un seul pixel/octet modifie le hash - Zero contestation possible
+----------------------------------------
+
+[STATUT] DOSSIER COMPLET - PRET CIPO + FABLOC
+- Pour Jihane Maliki: P-03 + P-04 = Combo integrite + paternite
+- Pour Gabriel Boilard / FABLOC: P-04 en public (groupe), P-03+P-04 en prive (comite)
+
+Auteur certifie: Mohammed Ilyes Zoubirou
+Sceau: NetSecurePro IA - BUILD 2025
+========================================
